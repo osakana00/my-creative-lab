@@ -1,0 +1,157 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Creative Lab</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: sans-serif;
+            background: #101827;
+            color: white;
+        }
+
+        header {
+            padding: 25px 8%;
+            background: #172337;
+        }
+
+        header h1 {
+            margin: 0;
+            color: #60a5fa;
+        }
+
+        nav {
+            margin-top: 15px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 20px;
+        }
+
+        .hero {
+            padding: 80px 8%;
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            color: #b8c4d6;
+        }
+
+        .contents {
+            padding: 30px 8% 80px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: #1e2d42;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #33445d;
+        }
+
+        .card h3 {
+            color: #60a5fa;
+        }
+
+        .card p {
+            color: #c4cfdd;
+        }
+
+        footer {
+            padding: 25px;
+            text-align: center;
+            background: #172337;
+            color: #aab7ca;
+        }
+        a.card {
+    display: block;
+    text-decoration: none;
+    color: white;
+    transition: 0.2s;
+}
+
+a.card:hover {
+    border-color: #60a5fa;
+    transform: translateY(-4px);
+}
+    </style>
+
+</head>
+
+<body>
+
+    <header>
+        <h1>My Creative Lab</h1>
+
+        <nav>
+            <a href="games.html">ゲーム</a>
+            <a href="tools.html">ツール</a>
+            <a href="#profile">プロフィール</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h2>MY CREATIVE LAB</h2>
+        <p>自分だけのゲームと便利なツールを公開する場所</p>
+    </section>
+
+    <main class="contents">
+
+        <section id="games">
+            <h2>🎮 ゲーム</h2>
+
+      <a href="games.html" class="card">
+    <h3>自作ゲーム</h3>
+    <p>オリジナルゲームを公開します。</p>
+    <p>ゲーム一覧を見る →</p>
+</a>
+            </div>
+        </section>
+
+        <section id="tools">
+            <h2>🛠 便利ツール</h2>
+
+<a href="tools.html" class="card">
+    <h3>便利ツール集</h3>
+    <p>日常で役立つツールを公開します。</p>
+    <p>ツール一覧を見る →</p>
+</a>
+            </div>
+        </section>
+
+        <section id="profile">
+            <h2>プロフィール</h2>
+
+            <div class="card">
+                <p>自分の作品を制作・公開する個人サイトです。</p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        My Creative Lab
+    </footer>
+
+</body>
+</html>

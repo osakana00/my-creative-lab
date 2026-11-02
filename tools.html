@@ -1,0 +1,287 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator | My Creative Lab</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: sans-serif;
+            background: #101827;
+            color: white;
+        }
+
+        header {
+            background: #172337;
+            padding: 25px 8%;
+        }
+
+        header h1 {
+            color: #60a5fa;
+        }
+
+        main {
+            max-width: 600px;
+            margin: auto;
+            padding: 40px 20px;
+        }
+
+        .calculator {
+            background: #1e2d42;
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid #33445d;
+        }
+
+        .display {
+            background: #101827;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: right;
+            overflow: hidden;
+        }
+
+        #result {
+            font-size: 36px;
+            color: #60a5fa;
+            min-height: 45px;
+            overflow-wrap: anywhere;
+        }
+
+        #history {
+            color: #aab7ca;
+            min-height: 22px;
+            font-size: 14px;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        button {
+            padding: 20px 5px;
+            border: none;
+            border-radius: 10px;
+            background: #33445d;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            filter: brightness(1.2);
+        }
+
+        .operator {
+            background: #2563eb;
+        }
+
+        .clear {
+            background: #b45353;
+        }
+
+        .equal {
+            background: #0d9488;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 25px;
+            color: #60a5fa;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🛠 My Creative Lab</h1>
+    <p>便利ツール集</p>
+</header>
+
+<main>
+
+    <h2>高機能電卓</h2>
+    <p>四則演算に対応したオリジナル電卓です。</p>
+
+    <div class="calculator">
+
+        <div class="display">
+            <div id="history"></div>
+            <div id="result">0</div>
+        </div>
+
+        <div class="buttons">
+
+            <button class="clear" onclick="clearAll()">AC</button>
+            <button onclick="deleteNumber()">DEL</button>
+            <button class="operator" onclick="chooseOperator('/')">÷</button>
+            <button class="operator" onclick="chooseOperator('*')">×</button>
+
+            <button onclick="inputNumber('7')">7</button>
+            <button onclick="inputNumber('8')">8</button>
+            <button onclick="inputNumber('9')">9</button>
+            <button class="operator" onclick="chooseOperator('-')">−</button>
+
+            <button onclick="inputNumber('4')">4</button>
+            <button onclick="inputNumber('5')">5</button>
+            <button onclick="inputNumber('6')">6</button>
+            <button class="operator" onclick="chooseOperator('+')">＋</button>
+
+            <button onclick="inputNumber('1')">1</button>
+            <button onclick="inputNumber('2')">2</button>
+            <button onclick="inputNumber('3')">3</button>
+            <button class="equal" onclick="calculate()" style="grid-row: span 2;">＝</button>
+
+            <button onclick="inputNumber('0')" style="grid-column: span 2;">0</button>
+            <button onclick="inputDecimal()">.</button>
+
+        </div>
+    </div>
+
+    <a class="back" href="index.html">← ホームに戻る</a>
+
+</main>
+
+<script>
+
+    let current = "0";
+    let previous = null;
+    let operator = null;
+    let waiting = false;
+
+    function updateDisplay() {
+        document.getElementById("result").textContent = current;
+    }
+
+    function inputNumber(number) {
+
+        if (current === "エラー") {
+            clearAll();
+        }
+
+        if (waiting) {
+            current = number;
+            waiting = false;
+        } else {
+            current = current === "0" ? number : current + number;
+        }
+
+        updateDisplay();
+    }
+
+    function inputDecimal() {
+
+        if (waiting) {
+            current = "0.";
+            waiting = false;
+        } else if (!current.includes(".")) {
+            current += ".";
+        }
+
+        updateDisplay();
+    }
+
+    function chooseOperator(nextOperator) {
+
+        if (current === "エラー") return;
+
+        const value = Number(current);
+
+        if (operator && !waiting) {
+            calculate();
+        } else {
+            previous = value;
+        }
+
+        operator = nextOperator;
+        waiting = true;
+
+        document.getElementById("history").textContent =
+            previous + " " + operator;
+    }
+
+    function calculate() {
+
+        if (operator === null || previous === null) return;
+
+        const second = Number(current);
+        let answer;
+
+        switch (operator) {
+            case "+":
+                answer = previous + second;
+                break;
+            case "-":
+                answer = previous - second;
+                break;
+            case "*":
+                answer = previous * second;
+                break;
+            case "/":
+                if (second === 0) {
+                    current = "エラー";
+                    previous = null;
+                    operator = null;
+                    waiting = true;
+                    updateDisplay();
+                    document.getElementById("history").textContent =
+                        "0では割れません";
+                    return;
+                }
+                answer = previous / second;
+                break;
+        }
+
+        document.getElementById("history").textContent =
+            previous + " " + operator + " " + second + " =";
+
+        current = String(Number(answer.toPrecision(12)));
+        previous = null;
+        operator = null;
+        waiting = true;
+
+        updateDisplay();
+    }
+
+    function clearAll() {
+
+        current = "0";
+        previous = null;
+        operator = null;
+        waiting = false;
+
+        document.getElementById("history").textContent = "";
+
+        updateDisplay();
+    }
+
+    function deleteNumber() {
+
+        if (current === "エラー" || waiting) {
+            current = "0";
+            waiting = false;
+        } else {
+            current = current.length > 1
+                ? current.slice(0, -1)
+                : "0";
+        }
+
+        updateDisplay();
+    }
+
+</script>
+
+</body>
+</html>

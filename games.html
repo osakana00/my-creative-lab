@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Click Game | My Creative Lab</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: sans-serif;
+            background: #101827;
+            color: white;
+        }
+
+        header {
+            background: #172337;
+            padding: 25px 8%;
+        }
+
+        header h1 {
+            color: #60a5fa;
+        }
+
+        main {
+            max-width: 800px;
+            margin: auto;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .game {
+            background: #1e2d42;
+            border: 1px solid #33445d;
+            border-radius: 15px;
+            padding: 35px 20px;
+        }
+
+        .score {
+            font-size: 55px;
+            color: #60a5fa;
+            font-weight: bold;
+        }
+
+        .time {
+            font-size: 25px;
+            margin: 20px;
+        }
+
+        button {
+            padding: 15px 35px;
+            border: none;
+            border-radius: 10px;
+            background: #3b82f6;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            margin: 8px;
+        }
+
+        button:hover {
+            background: #2563eb;
+        }
+
+        button:disabled {
+            background: #526176;
+            cursor: not-allowed;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 30px;
+            color: #60a5fa;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🎮 My Creative Lab</h1>
+    <p>ゲームコレクション</p>
+</header>
+
+<main>
+
+    <h2>10秒クリックチャレンジ</h2>
+    <p>10秒間で何回クリックできるか挑戦しよう！</p>
+
+    <div class="game">
+
+        <p>クリック回数</p>
+        <div class="score" id="score">0</div>
+
+        <div class="time">
+            残り時間：<span id="time">10</span>秒
+        </div>
+
+        <button id="startButton" onclick="startGame()">
+            ゲームスタート
+        </button>
+
+        <button id="clickButton" onclick="addScore()" disabled>
+            クリック！
+        </button>
+
+        <h3 id="result">スタートして挑戦しよう！</h3>
+
+    </div>
+
+    <a class="back" href="index.html">← ホームに戻る</a>
+
+</main>
+
+<script>
+
+    let score = 0;
+    let timeLeft = 10;
+    let playing = false;
+    let timer;
+
+    function startGame() {
+
+        score = 0;
+        timeLeft = 10;
+        playing = true;
+
+        document.getElementById("score").textContent = score;
+        document.getElementById("time").textContent = timeLeft;
+        document.getElementById("result").textContent = "クリック！";
+
+        document.getElementById("clickButton").disabled = false;
+        document.getElementById("startButton").disabled = true;
+
+        timer = setInterval(function() {
+
+            timeLeft--;
+
+            document.getElementById("time").textContent = timeLeft;
+
+            if (timeLeft <= 0) {
+                endGame();
+            }
+
+        }, 1000);
+    }
+
+    function addScore() {
+
+        if (!playing) return;
+
+        score++;
+
+        document.getElementById("score").textContent = score;
+    }
+
+    function endGame() {
+
+        playing = false;
+        clearInterval(timer);
+
+        document.getElementById("clickButton").disabled = true;
+        document.getElementById("startButton").disabled = false;
+
+        document.getElementById("result").textContent =
+            "終了！あなたの記録は " + score + " 回です！";
+    }
+
+</script>
+
+</body>
+</html>
